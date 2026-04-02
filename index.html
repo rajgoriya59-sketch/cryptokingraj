@@ -1,590 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto King Raj - Professional Crypto Trading</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<title>Crypto King Raj</title>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: black;
+  color: white;
+  text-align: center;
+}
 
-        /* Loading Animation */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
+.page {
+  display: none;
+  padding: 40px;
+}
 
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(0, 255, 128, 0.3);
-            border-top: 3px solid #00ff80;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+.active {
+  display: block;
+}
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+.btn {
+  padding: 15px 25px;
+  margin: 10px;
+  background: lime;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-        /* Navigation */
-        .nav {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-        }
+.arrow {
+  position: fixed;
+  right: 20px;
+  bottom: 50%;
+  font-size: 30px;
+  cursor: pointer;
+  color: lime;
+}
 
-        .nav-btn {
-            background: rgba(0, 255, 128, 0.1);
-            border: 1px solid #00ff80;
-            color: #00ff80;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
+.chatbox {
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+}
 
-        .nav-btn:hover {
-            background: #00ff80;
-            color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 255, 128, 0.4);
-        }
+textarea {
+  width: 100%;
+  height: 80px;
+}
 
-        /* Page Container */
-        .page {
-            min-height: 100vh;
-            display: none;
-            padding: 20px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .page.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Page 1 - Landing */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .hero-content {
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .profile-img {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            border: 3px solid #00ff80;
-            box-shadow: 0 0 50px rgba(0, 255, 128, 0.5);
-            margin-right: 50px;
-            animation: float 6s ease-in-out infinite;
-            background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=400&fit=crop&crop=face');
-            background-size: cover;
-            background-position: center;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .name {
-            font-family: 'Orbitron', monospace;
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(0, 255, 128, 0.5);
-        }
-
-        .intro {
-            font-size: 1.3rem;
-            color: #ccc;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-
-        .features {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 40px 0;
-        }
-
-        .feature {
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
-            color: #00ff80;
-        }
-
-        .feature i {
-            margin-right: 15px;
-            font-size: 1.3rem;
-        }
-
-        .live-btn {
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            color: #000;
-            border: none;
-            padding: 18px 40px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 255, 128, 0.4);
-            margin: 20px 0;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .live-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0, 255, 128, 0.6);
-        }
-
-        .next-arrow {
-            font-size: 4rem;
-            color: #00ff80;
-            cursor: pointer;
-            animation: pulse 2s infinite;
-            transition: all 0.3s ease;
-        }
-
-        .next-arrow:hover {
-            color: #00bfff;
-            transform: scale(1.2);
-            text-shadow: 0 0 30px rgba(0, 255, 128, 0.8);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Page 2 - Dashboard */
-        .dashboard {
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-            padding-top: 100px;
-        }
-
-        .dashboard-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 3rem;
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 60px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 128, 0.3);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 128, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-15px);
-            border-color: #00ff80;
-            box-shadow: 0 30px 60px rgba(0, 255, 128, 0.3);
-        }
-
-        .card.vip {
-            border-color: #00bfff;
-        }
-
-        .card.vip:hover {
-            box-shadow: 0 30px 60px rgba(0, 191, 255, 0.3);
-        }
-
-        .card-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #00ff80;
-        }
-
-        .card.vip .card-title {
-            color: #00bfff;
-        }
-
-        .card-desc {
-            color: #ccc;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-
-        .join-btn {
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            color: #000;
-            border: none;
-            padding: 18px 40px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 255, 128, 0.4);
-        }
-
-        .card.vip .join-btn {
-            background: linear-gradient(45deg, #00bfff, #00ff80);
-        }
-
-        .join-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0, 255, 128, 0.6);
-        }
-
-        /* Page 3 - Chat */
-        .chat-container {
-            max-width: 800px;
-            margin: 0 auto;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding-top: 80px;
-        }
-
-        .chat-header {
-            background: rgba(0, 255, 128, 0.1);
-            border-bottom: 1px solid rgba(0, 255, 128, 0.3);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .chat-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            color: #00ff80;
-        }
-
-        .messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .message {
-            display: flex;
-            max-width: 70%;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.user {
-            align-self: flex-end;
-        }
-
-        .message.raj {
-            align-self: flex-start;
-        }
-
-        .message-bubble {
-            padding: 15px 20px;
-            border-radius: 20px;
-            position: relative;
-            max-width: 100%;
-        }
-
-        .message.user .message-bubble {
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            color: #000;
-            font-weight: 500;
-        }
-
-        .message.raj .message-bubble {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 128, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .message-time {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 5px;
-            text-align: right;
-        }
-
-        .chat-input {
-            padding: 20px;
-            border-top: 1px solid rgba(0, 255, 128, 0.3);
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 128, 0.3);
-            border-radius: 25px;
-            padding: 15px 25px;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .chat-input input::placeholder {
-            color: #888;
-        }
-
-        .send-btn {
-            background: linear-gradient(45deg, #00ff80, #00bfff);
-            color: #000;
-            border: none;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 30px rgba(0, 255, 128, 0.5);
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                gap: 40px;
-            }
-
-            .profile-img {
-                width: 200px;
-                height: 200px;
-                margin-right: 0;
-            }
-
-            .name {
-                font-size: 2.5rem;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
-            .message {
-                max-width: 85%;
-            }
-        }
-
-        /* Scrollbar */
-        .messages::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .messages::-webkit-scrollbar-thumb {
-            background: #00ff80;
-            border-radius: 3px;
-        }
-    </style>
+.message {
+  background: #111;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  text-align: left;
+}
+</style>
 </head>
+
 <body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <div class="loader"></div>
-    </div>
 
-    <!-- Navigation -->
-    <div class="nav">
-        <div class="nav-btn" onclick="showPage(1)">Home</div>
-        <div class="nav-btn" onclick="showPage(2)">Dashboard</div>
-        <div class="nav-btn" onclick="showPage(3)">Chat</div>
-    </div>
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+  <h1>Raj Sniper</h1>
+  <p>Professional Crypto Trader</p>
 
-    <!-- Page 1: Landing -->
-    <div class="page active" id="page1">
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="name">Raj Sniper</h1>
-                <p class="intro">
-                    Hi, I'm Raj Sniper, a professional crypto trader specializing in precision-based trading strategies. 
-                    I help traders achieve consistency through high-probability signals and structured learning.
-                </p>
-                
-                <div class="features">
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        High accuracy trading signals
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        Crypto trading education
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        Exclusive VIP mentorship
-                    </div>
-                </div>
+  <p>
+    Get high-probability crypto signals, real-time insights, and trading education.
+  </p>
 
-                <button class="live-btn">
-                    <i class="fas fa-video"></i> LIVE VIDEO CALL + SCREEN RECORD
-                </button>
-            </div>
-            <div>
-                <div class="profile-img"></div>
-                <div class="next-arrow" onclick="showPage(2)">→</div>
-            </div>
-        </section>
-    </div>
+  <p>
+    Free signals + VIP mentorship available.
+  </p>
 
-    <!-- Page 2: Dashboard -->
-    <div class="page" id="page2">
-        <div class="dashboard">
-            <h1 class="dashboard-title">Crypto King Raj Community</h1>
-            
-            <div class="cards">
-                <div class="card">
-                    <h3 class="card-title">PUBLIC CHANNEL</h3>
-                    <p class="card-desc">
-                        Free signals, updates, and market analysis for all traders
-                    </p>
-                    <button class="join-btn" onclick="alert('Public channel link coming soon!')">
-                        Join Public Channel
-                    </button>
-                </div>
+  <button class="btn">Live Video Call</button>
+  <button class="btn">Screen Record</button>
 
-                <div class="card vip">
-                    <h3 class="card-title">VIP CHANNEL</h3>
-                    <p class="card-desc">
-                        Premium high-accuracy signals + personal mentorship
-                    </p>
-                    <button class="join-btn" onclick="showPage(3)">
-                        Join VIP
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="arrow" onclick="goPage(2)">➡</div>
+</div>
 
-    <!-- Page 3: Chat -->
-    <div class="page" id="page3">
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <i class="fas fa-comments"></i> Chat with Raj Sniper
-                </div>
-            </div>
-            
-            <div class="messages" id="messages">
-                <div class="message raj">
-                    <div class="message-bubble">
-                        Hi! Welcome to Crypto King Raj. How can I help you today? 🚀
-                    </div>
-                    <div class="message-time">10:30 AM</div>
-                </div>
-            </div>
-            
-            <div class="chat-input">
-                <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-                <button class="send-btn" onclick="sendMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <h1>Crypto King Raj Community</h1>
 
-    <script>
-        // Loading animation
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('
+  <button class="btn" onclick="alert('Public Channel Coming Soon')">
+    Public Channel
+  </button>
+
+  <br>
+
+  <button class="btn" onclick="goPage(3)">
+    VIP Channel
+  </button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+  <h2>Message to Join VIP</h2>
+
+  <div class="chatbox">
+    <div id="chat"></div>
+
+    <textarea id="msg" placeholder="Type your message"></textarea>
+    <br><br>
+    <button class="btn" onclick="sendMsg()">Send</button>
+  </div>
+</div>
+
+<script>
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + page).classList.add('active');
+}
+
+function sendMsg() {
+  let msg = document.getElementById("msg").value;
+  let chat = document.getElementById("chat");
+
+  if(msg.trim() === "") return;
+
+  chat.innerHTML += `<div class="message"><b>You:</b> ${msg}</div>`;
+
+  setTimeout(() => {
+    chat.innerHTML += `<div class="message"><b>Raj:</b><br>
+    To join VIP:<br><br>
+    1. Follow Insta: https://instagram.com/rajtrendlinesniper9<br><br>
+    2. Pay ₹399<br><br>
+    3. Or join Delta & deposit $20<br>
+    (Link add later)
+    </div>`;
+  }, 500);
+
+  document.getElementById("msg").value = "";
+}
+</script>
+
+</body>
+</html>
+             

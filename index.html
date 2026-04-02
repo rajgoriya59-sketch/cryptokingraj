@@ -6,58 +6,101 @@
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial;
-  background: black;
-  color: white;
-  text-align: center;
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color:white;
 }
 
+/* PAGES */
 .page {
-  display: none;
-  padding: 40px;
+  display:none;
+  padding:40px;
+  min-height:100vh;
+}
+.active { display:block; }
+
+/* HERO */
+.hero {
+  text-align:center;
+  margin-top:100px;
+}
+.hero h1 {
+  font-size:40px;
+  color:#00ffcc;
+}
+.hero p {
+  color:#aaa;
+  max-width:400px;
+  margin:auto;
 }
 
-.active {
-  display: block;
-}
-
+/* BUTTON */
 .btn {
-  padding: 15px 25px;
-  margin: 10px;
-  background: lime;
-  color: black;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+  padding:12px 20px;
+  margin:10px;
+  border:none;
+  border-radius:8px;
+  background:#00ffcc;
+  color:black;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+.btn:hover {
+  background:#00cc99;
 }
 
+/* CARD */
+.card {
+  background:#111;
+  padding:20px;
+  margin:15px auto;
+  max-width:300px;
+  border-radius:15px;
+  box-shadow:0 0 15px #00ffcc33;
+}
+
+/* ARROW */
 .arrow {
-  position: fixed;
-  right: 20px;
-  bottom: 50%;
-  font-size: 30px;
-  cursor: pointer;
-  color: lime;
+  position:fixed;
+  right:20px;
+  bottom:50%;
+  font-size:30px;
+  cursor:pointer;
+  color:#00ffcc;
 }
 
+/* CHAT */
 .chatbox {
-  width: 90%;
-  max-width: 400px;
-  margin: auto;
+  max-width:400px;
+  margin:auto;
+}
+.msg {
+  background:#111;
+  padding:10px;
+  margin:5px;
+  border-radius:10px;
+  text-align:left;
 }
 
-textarea {
-  width: 100%;
-  height: 80px;
+/* IMAGES */
+img {
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
 }
 
-.message {
-  background: #111;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 10px;
-  text-align: left;
+/* ADMIN */
+#adminPanel {
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  padding:30px;
 }
 </style>
 </head>
@@ -66,79 +109,116 @@ textarea {
 
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
-  <h1>Raj Sniper</h1>
-  <p>Professional Crypto Trader</p>
+  <div class="hero">
+    <h1>Raj Sniper</h1>
+    <p>Professional Crypto Trader providing high-accuracy signals and trading education.</p>
 
-  <p>
-    Get high-probability crypto signals, real-time insights, and trading education.
-  </p>
-
-  <p>
-    Free signals + VIP mentorship available.
-  </p>
-
-  <button class="btn">Live Video Call</button>
-  <button class="btn">Screen Record</button>
+    <button class="btn">Live Call</button>
+    <button class="btn">Screen Record</button>
+  </div>
 
   <div class="arrow" onclick="goPage(2)">➡</div>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="page">
-  <h1>Crypto King Raj Community</h1>
+  <h2 style="text-align:center;">Crypto King Raj</h2>
 
-  <button class="btn" onclick="alert('Public Channel Coming Soon')">
-    Public Channel
-  </button>
+  <div class="card">
+    <h3>Public Signals</h3>
+    <div id="publicImages"></div>
+  </div>
 
+  <div class="card">
+    <h3>VIP Signals</h3>
+    <div id="vipImages"></div>
+  </div>
+
+  <button class="btn" onclick="goPage(3)">Join VIP</button>
   <br>
-
-  <button class="btn" onclick="goPage(3)">
-    VIP Channel
-  </button>
+  <button class="btn" onclick="openAdmin()">Admin</button>
 </div>
 
 <!-- PAGE 3 -->
 <div id="page3" class="page">
-  <h2>Message to Join VIP</h2>
+  <h2>Join VIP</h2>
 
   <div class="chatbox">
     <div id="chat"></div>
 
-    <textarea id="msg" placeholder="Type your message"></textarea>
-    <br><br>
+    <textarea id="msg" placeholder="Type message..." style="width:100%;height:80px;"></textarea>
+    <br>
     <button class="btn" onclick="sendMsg()">Send</button>
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <h2>Admin Upload</h2>
+
+  <input type="file" id="imgUpload"><br><br>
+
+  <button class="btn" onclick="addPublic()">Add Public</button>
+  <button class="btn" onclick="addVIP()">Add VIP</button>
+  <br>
+  <button class="btn" onclick="closeAdmin()">Close</button>
+</div>
+
 <script>
-function goPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page' + page).classList.add('active');
+function goPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page'+p).classList.add('active');
 }
 
-function sendMsg() {
+// CHAT
+function sendMsg(){
   let msg = document.getElementById("msg").value;
-  let chat = document.getElementById("chat");
+  if(msg==="") return;
 
-  if(msg.trim() === "") return;
+  document.getElementById("chat").innerHTML += 
+  `<div class="msg"><b>You:</b> ${msg}</div>`;
 
-  chat.innerHTML += `<div class="message"><b>You:</b> ${msg}</div>`;
-
-  setTimeout(() => {
-    chat.innerHTML += `<div class="message"><b>Raj:</b><br>
-    To join VIP:<br><br>
-    1. Follow Insta: https://instagram.com/rajtrendlinesniper9<br><br>
-    2. Pay ₹399<br><br>
-    3. Or join Delta & deposit $20<br>
-    (Link add later)
+  setTimeout(()=>{
+    document.getElementById("chat").innerHTML += `
+    <div class="msg"><b>Raj:</b><br>
+    1. Follow Insta: rajtrendlinesniper9<br>
+    2. Pay ₹399<br>
+    3. Or join Delta & deposit $20
     </div>`;
-  }, 500);
+  },500);
 
-  document.getElementById("msg").value = "";
+  document.getElementById("msg").value="";
+}
+
+// ADMIN
+function openAdmin(){
+  let pass = prompt("Enter password");
+  if(pass==="raj123"){
+    document.getElementById("adminPanel").style.display="block";
+  } else {
+    alert("Wrong password");
+  }
+}
+
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display="none";
+}
+
+// IMAGE
+function addPublic(){
+  let file = document.getElementById("imgUpload").files[0];
+  if(!file) return;
+  let url = URL.createObjectURL(file);
+  document.getElementById("publicImages").innerHTML += `<img src="${url}">`;
+}
+
+function addVIP(){
+  let file = document.getElementById("imgUpload").files[0];
+  if(!file) return;
+  let url = URL.createObjectURL(file);
+  document.getElementById("vipImages").innerHTML += `<img src="${url}">`;
 }
 </script>
 
 </body>
-</html>
-             
+</html>     
